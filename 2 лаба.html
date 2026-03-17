@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Путешествия</title>
+   
+</head>
+<body>
+
+    <!-- Навигация -->
+    <nav>
+        <h1>Путешествия</h1>
+        <p>навигация по блокам с якорями</p>
+        <ul>
+            <li><a href="#header">Главная</a></li>
+            <li><a href="#map">Карта</a></li>
+            <li><a href="#description">Описание</a></li>
+            <li><a href="#weather">Погода</a></li>
+            <li><a href="#about">О нас</a></li>
+            <li><a href="#contact">Контакты</a></li>
+            <li><a href="#faq">FAQ</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <!-- Header / Название страны -->
+        <section id="header">
+            <h2>Название страны</h2>
+            <h3>Добро пожаловать в Италию</h3>
+            <p style="color: #666; font-size: 16px;">Страна искусства, культуры и неповторимой кухни</p>
+        </section>
+
+        <!-- Карта регионов -->
+        <section id="map">
+            <h2>Карта регионов</h2>
+            <div class="map-container" onclick="alert('Выберите регион на карте')">
+                <svg class="map-svg" viewBox="0 0 400 300">
+                    <!-- Примерные регионы Италии -->
+                    <path class="region" d="M180,20 L220,20 L240,60 L200,80 L160,60 Z" data-region="Север" onclick="selectRegion(this, event)"/>
+                    <path class="region" d="M160,60 L200,80 L220,140 L180,160 L140,120 Z" data-region="Центр" onclick="selectRegion(this, event)"/>
+                    <path class="region" d="M180,160 L220,140 L240,200 L200,240 L160,200 Z" data-region="Юг" onclick="selectRegion(this, event)"/>
+                    <path class="region" d="M240,200 L280,180 L300,220 L260,260 L220,240 Z" data-region="Сицилия" onclick="selectRegion(this, event)"/>
+                    <text x="200" y="150" text-anchor="middle" fill="white" font-size="16" pointer-events="none">Италия</text>
+                </svg>
+            </div>
+            <p id="selected-region" style="margin-top: 10px; color: #667eea; font-weight: bold;"></p>
+        </section>
+
+        <!-- Описание -->
+        <section id="description">
+            <h2>Описание</h2>
+            <div class="description-text">
+                <p>Италия — страна с богатейшей историей, восходящей к Древнему Риму. Здесь переплетаются архитектурные шедевры эпохи Возрождения, живописные побережья Средиземного моря и знаменитая кухня, признанная объектом всемирного наследия ЮНЕСКО.</p>
+                <p>От Венеции с её каналами до Рима с Колизеем, от Тосканы с виноградниками до Амальфитанского побережья — каждый регион уникален и заслуживает отдельного путешествия.</p>
+            </div>
+        </section>
+
+        <!-- Погода -->
+        <section id="weather">
+            <h2>Погода</h2>
+            <div class="weather-grid">
+                <div class="weather-card">
+                    <h4>Рим</h4>
+                    <div class="temp">+24°</div>
+                    <div style="font-size: 12px;">Солнечно</div>
+                </div>
+                <div class="weather-card">
+                    <h4>Венеция</h4>
+                    <div class="temp">+22°</div>
+                    <div style="font-size: 12px;">Облачно</div>
+                </div>
+                <div class="weather-card">
+                    <h4>Милан</h4>
+                    <div class="temp">+20°</div>
+                    <div style="font-size: 12px;">Дождь</div>
+                </div>
+                <div class="weather-card">
+                    <h4>Неаполь</h4>
+                    <div class="temp">+26°</div>
+                    <div style="font-size: 12px;">Солнечно</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- О нас/о стране -->
+        <section id="about">
+            <h2>О нас / о стране</h2>
+            <div class="stats-container">
+                <div class="stat-item">
+                    <div class="stat-number">20</div>
+                    <div class="stat-label">Регионов</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">55</div>
+                    <div class="stat-label">Объектов UNESCO</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">3000+</div>
+                    <div class="stat-label">Лет истории</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">500+</div>
+                    <div class="stat-label">Видов пасты</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Форма обратной связи -->
+        <section id="contact">
+            <h2>Форма обратной связи / Задать вопрос</h2>
+            <form class="contact-form" onsubmit="submitForm(event)">
+                <div class="form-group">
+                    <label for="name">Ваше имя</label>
+                    <input type="text" id="name" name="name" required placeholder="Введите имя">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required placeholder="example@mail.com">
+                </div>
+                <div class="form-group">
+                    <label for="message">Сообщение</label>
+                    <textarea id="message" name="message" required placeholder="Ваш вопрос или сообщение..."></textarea>
+                </div>
+                <button type="submit">Отправить</button>
+            </form>
+        </section>
+
+        <!-- FAQ -->
+        <section id="faq">
+            <h2>FAQ</h2>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>Нужна ли виза для поездки в Италию?</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Для граждан России требуется шенгенская виза. Срок оформления — от 5 рабочих дней.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)

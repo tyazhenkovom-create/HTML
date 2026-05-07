@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Лабораторная: Массивы в JavaScript</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 900px; margin: 20px auto; padding: 0 15px; }
+        h1 { color: #333; }
+        h2 { color: #555; border-bottom: 1px solid #ccc; padding-bottom: 5px; }
+        h3 { color: #777; }
+        .result { background: #f0f0f0; padding: 10px; border-radius: 5px; margin: 5px 0; }
+        .success { color: green; }
+        .error { color: red; }
+        input, textarea { padding: 5px; margin: 3px; font-family: monospace; }
+        button { padding: 6px 15px; cursor: pointer; }
+        .section { margin-bottom: 30px; }
+    </style>
+<base target="_blank">
+</head>
+<body>
+    <h1>Лабораторная: Массивы в JavaScript</h1>
+
+    <div class="section">
+        <h2>Задача 1</h2>
+
+        <h3>1.1 Максимальная разница</h3>
+        <input type="text" id="t1-1" value="1, 5, 3, 9, 2" size="30">
+        <button onclick="run1_1()">Вычислить</button>
+        <div class="result" id="r1-1"></div>
+
+        <h3>1.2 Без повторов</h3>
+        <input type="text" id="t1-2" value="1, 2, 2, 3, 3, 3, 4" size="30">
+        <button onclick="run1_2()">Удалить дубликаты</button>
+        <div class="result" id="r1-2"></div>
+
+        <h3>1.3 Фильтр isDone: true</h3>
+        <textarea id="t1-3" rows="3" cols="50">[{"id":1,"isDone":true},{"id":2,"isDone":false},{"id":3,"isDone":true}]</textarea>
+        <button onclick="run1_3()">Фильтровать</button>
+        <div class="result" id="r1-3"></div>
+    </div>
+
+    <div class="section">
+        <h2>Задача 2</h2>
+
+        <h3>2.1 Больше числа</h3>
+        <input type="text" id="t2-1-arr" value="1, 4, 6, 3, 2" size="20">
+        <input type="number" id="t2-1-num" value="2" size="5">
+        <button onclick="run2_1()">Фильтровать</button>
+        <div class="result" id="r2-1"></div>
+
+        <h3>2.2 Уплощение массива</h3>
+        <input type="text" id="t2-2" value="[1, 4, [34, 1, 20], [6, [6, 12, 8], 6]]" size="50">
+        <button onclick="run2_2()">Уплощить</button>
+        <div class="result" id="r2-2"></div>
+    </div>
+
+    <div class="section">
+        <h2>Задача 3</h2>
+
+        <h3>3.1 Пары с суммой 0</h3>
+        <input type="text" id="t3-1" value="-7, 12, 4, 6, -4, -12, 0" size="40">
+        <button onclick="run3_1()">Найти пары</button>
+        <div class="result" id="r3-1"></div>
+
+        <h3>3.2 Тройки с суммой 0</h3>
+        <input type="text" id="t3-2" value="-1, 0, 1, 2, -1, -4" size="40">
+        <button onclick="run3_2()">Найти тройки</button>
+        <div class="result" id="r3-2"></div>
+    </div>
+
+    <script>
+        // ===== ЗАДАЧА 1 =====
+
+        // 1.1 Максимальная разница
+        function maxDiff(arr) {
+            return Math.max(...arr) - Math.min(...arr);
+        }
+
+        function run1_1() {
+            const arr = document.getElementById('t1-1').value.split(',').map(Number);
+            document.getElementById('r1-1').innerHTML =
+                '<span class="success">Результат: ' + maxDiff(arr) + '</span>';
+        }
+
+        // 1.2 Без повторов
+        function unique(arr) {
+            return [...new Set(arr)];
+        }
+
+        function run1_2() {
+            const arr = document.getElementById('t1-2').value.split(',').map(x => x.trim());
+            document.getElementById('r1-2').innerHTML =
+                '<span class="success">Результат: [' + unique(arr).join(', ') + ']</span>';
+        }
+
+        // 1.3 Фильтр isDone
+        function filterDone(arr) {
+            return arr.filter(item => item.isDone === true);
+        }
+
+        function run1_3() {
+            try {
+                const arr = JSON.parse(document.getElementById('t1-3').value);
+                const res = filterDone(arr);
+                document.getElementById('r1-3').innerHTML =
+                    '<span class="success">Результат: ' + JSON.stringify(res) + '</span>';
+            } catch(e) {
+                document.getElementById('r1-3').innerHTML = '<span class="error">Ошибка JSON</span>';
+            }
+        }
+
+        // ===== ЗАДАЧА 2 =====
+
+        // 2.1 Больше числа
+        function greaterThan(arr, num) {
+            return arr.filter(x => x > num);
+        }
+
+        function run2_1() {
+            const arr = document.getElementById('t2-1-arr').value.split(',').map(Number);
+            const num = Number(document.getElementById('t2-1-num').value);
+            document.getElementById('r2-1').innerHTML =
+                '<span class="success">Результат: [' + greaterThan(arr, num).join(', ') + ']</span>';
+        }
+
+        // 2.2 Уплощение
+        function flatten(arr) {
+            const res = [];
+            for (const item of arr) {
+                if (Array.isArray(item)) res.push(...flatten(item));
+                else res.push(item);
+            }
+            return res;
+        }
+
+        function run2_2() {
+            try {
+                const arr = JSON.parse(document.getElementById('t2-2').value);
+                document.getElementById('r2-2').innerHTML =
+                    '<span class="success">Результат: [' + flatten(arr).join(', ') + ']</span>';
+            } catch(e) {
+                document.getElementById('r2-2').innerHTML = '<span class="error">Ошибка</span>';
+            }
+        }
+
+        // ===== ЗАДАЧА 3 =====
+
+        // 3.1 Пары с суммой 0
+        function countPairs(arr) {
+            const freq = {};
+            for (const n of arr) freq[n] = (freq[n] || 0) + 1;
+            let count = 0;
+            const done = new Set();
+            for (const n of Object.keys(freq).map(Number)) {
+                if (n === 0) {
+                    count += freq[0] * (freq[0] - 1) / 2;
+                } else if (!done.has(n) && freq[-n]) {
+                    count += freq[n] * freq[-n];
+                    done.add(n); done.add(-n);
+                }
+            }
+            return count;
+        }
+
+        function run3_1() {
+            const arr = document.getElementById('t3-1').value.split(',').map(Number);
+            document.getElementById('r3-1').innerHTML =
+                '<span class="success">Результат: ' + countPairs(arr) + ' пар</span>';
+        }
+
+        // 3.2 Тройки с суммой 0
+        function countTriplets(arr) {
+            const n = arr.length;
+            if (n < 3) return 0;
+            const s = [...arr].sort((a, b) => a - b);
+            let count = 0;
+            for (let i = 0; i < n - 2; i++) {
+                if (i > 0 && s[i] === s[i - 1]) continue;
+                let l = i + 1, r = n - 1;
+                while (l < r) {
+                    const sum = s[i] + s[l] + s[r];
+                    if (sum === 0) {
+                        let lc = 1, rc = 1;
+                        while (l + 1 < r && s[l] === s[l + 1]) { lc++; l++; }
+                        while (r - 1 > l && s[r] === s[r - 1]) { rc++; r--; }
+                        if (s[l] === s[r]) {
+                            const m = r - l + 1;
+                            count += m * (m - 1) / 2;
+                            break;
+                        }
+                        count += lc * rc;
+                        l++; r--;
+                    } else if (sum < 0) l++;
+                    else r--;
+                }
+            }
+            return count;
+        }
+
+        function run3_2() {
+            const arr = document.getElementById('t3-2').value.split(',').map(Number);
+            document.getElementById('r3-2').innerHTML =
+                '<span class="success">Результат: ' + countTriplets(arr) + ' троек</span>';
+        }
+    </script>
+</body>
+</html>
